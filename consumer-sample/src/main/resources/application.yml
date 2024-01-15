@@ -1,0 +1,39 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: consumer-sample
+  cloud:
+    nacos:
+      # nacos server 配置文件需开启鉴权：nacos.core.auth.enabled=true
+      # 同时nacos server 还需要指定nacos.core.auth.server.identity.key和nacos.core.auth.server.identity.value，
+      # 表示当前请求头中包含配置内容，跳过鉴权，用于服务器内部调用不走鉴权认证
+      username: nacos
+      password: nacos
+      discovery:
+        # 命名空间ID，用于区分不同环境，默认为public
+        #namespace: 911c83a2-bae4-4c78-802a-99dbbbdd66a4 # dev
+        server-addr: 127.0.0.1:8848
+        # 服务分组，不同的服务可以归类到一个 分组
+        group: marketing
+        # 虚拟集群，同一个服务下的所有服务实例组成一个默认集群（DEFAULT），可以进一步划分多个虚拟集群
+        cluster-name: enhao-local
+        # 自定义元数据
+        metadata:
+          version: 1.0
+          env: dev
+    loadbalancer:
+      # 使用 NacosLoadBalancer 作为负载均衡器，替换 spring-cloud-loadbalancer 中默认的的 RoundRobinLoadBalancer（轮训）
+      # NacosLoadBalancer 增加对相同虚拟集群和权重（weight）的判断逻辑。主体还是轮训逻辑
+      nacos:
+        enabled: true # 默认为false
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+
+fusion:
+  env-key: default1

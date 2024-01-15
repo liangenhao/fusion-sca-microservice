@@ -1,0 +1,6 @@
+spring:
+  config:
+    import:
+      - optional:nacos:provider-sample-dev.yml?group=marketing-config&refreshEnabled=true
+fusion:
+  env-key: dev-provider
