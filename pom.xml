@@ -7,6 +7,7 @@
         <module>common</module>
         <module>consumer-sample</module>
         <module>provider-sample</module>
+        <module>sentinel-sample</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -43,6 +44,7 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Spring Cloud 依赖相关 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -58,6 +60,7 @@
                 <scope>import</scope>
             </dependency>
 
+            <!-- 工具包相关 -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -70,6 +73,7 @@
                 <version>${org.mapstruct.version}</version>
             </dependency>
 
+            <!-- 子工程相关 -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>common</artifactId>

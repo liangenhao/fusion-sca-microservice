@@ -7,16 +7,18 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+        group: FUSION_SERVICE_GROUP
+        cluster-name: enhao-local
       config:
         server-addr: 127.0.0.1:8848
-        group: marketing-config # 默认组，可以被 ${spring.config.import} 里?后group覆盖
+        group: FUSION_CONFIG_GROUP # 默认组，可以被 ${spring.config.import} 里?后group覆盖
         refresh-enabled: true # 是否开启动态刷新，默认开启，可以被 ${spring.config.import} 里?后refreshEnabled覆盖
       username: nacos
       password: nacos
   config:
     # https://sca.aliyun.com/zh-cn/docs/2021.0.5.0/user-guide/nacos/advanced-guide#springcconfigimport-%E5%BC%95%E5%85%A5
     import:
-      - optional:nacos:provider-sample.yml?group=marketing-config&refreshEnabled=true
+      - optional:nacos:provider-sample.yml?group=FUSION_CONFIG_GROUP&refreshEnabled=true
   profiles:
     active: dev # 当前激活的环境
 # Spring Boot Actuator

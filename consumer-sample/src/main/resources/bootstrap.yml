@@ -15,7 +15,7 @@ spring:
         file-extension: yml
         # 或者直接指定dataId ${spring.cloud.nacos.config.name}
         name: consumer-sample
-        group: marketing-config
+        group: FUSION_CONFIG_GROUP
         refresh-enabled: true # 是否开启动态刷新，默认开启
   profiles:
     active: dev

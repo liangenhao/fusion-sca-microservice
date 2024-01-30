@@ -1,6 +1,6 @@
 spring:
   config:
     import:
-      - optional:nacos:provider-sample-dev.yml?group=marketing-config&refreshEnabled=true
+      - optional:nacos:provider-sample-dev.yml?group=FUSION_CONFIG_GROUP&refreshEnabled=true
 fusion:
   env-key: dev-provider

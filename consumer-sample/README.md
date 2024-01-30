@@ -1,0 +1,4 @@
+- nacos server 单机启动命令: bin/startup.sh -m standalone
+- nacos server 本地访问: http://localhost:8848/nacos/
+- sentinel dashboard 启动命令: java -Dserver.port=8080 -Dcsp.sentinel.dashboard.server=localhost:8080 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard-1.8.6.jar
+- sentinel dashboard 本地访问： http://localhost:8080/#/login

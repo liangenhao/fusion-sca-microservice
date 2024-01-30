@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RefreshScope
 @RequestMapping("config-import")
-public class ConfigImportController {
+public class NacosConfigImportController {
 
     @Value("${providerCustomKey}")
     private String providerCustomKey;
