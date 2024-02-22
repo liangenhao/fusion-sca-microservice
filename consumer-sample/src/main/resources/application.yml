@@ -39,27 +39,34 @@ spring:
         enabled: true # 默认 true，是否开启对 Spring webmvc 的拦截器
         url-patterns: # 拦截器拦截路径
           - '/**'
-      datasource: # 动态数据源 todo 动态刷新，sentinel 和 nacos 配置同步 (对dashboard改造)
-        ds1:
+      log:
+        dir: logs/${spring.application.name}
+      datasource: # 动态数据源，需对 sentinel-dashboard 做改造，详见 https://github.com/liangenhao/Sentinel/tree/master/sentinel-dashboard
+        ds-flow:
           nacos:
             username: ${spring.cloud.nacos.username}
             password: ${spring.cloud.nacos.password}
             server-addr: 127.0.0.1:8848
-            group: SENTINEL_RULES_CONFIG_GROUP
+            group-id: SENTINEL_RULES_CONFIG_GROUP # 特别注意: 这里是 group-id，不是 group，和 spring.cloud.nacos.config 的配置 key 是不同的！
             data-type: json # 支持: json、xml、custom，当为 custom 时，指定 converter-class 配置项，写类全路径名
             rule-type: flow # 流控规则
             data-id: ${spring.application.name}-flow-rules
-        ds2:
+        ds-degrade:
           nacos:
             username: ${spring.cloud.nacos.username}
             password: ${spring.cloud.nacos.password}
             server-addr: 127.0.0.1:8848
-            group: SENTINEL_RULES_CONFIG_GROUP
+            group-id: SENTINEL_RULES_CONFIG_GROUP
             data-type: json
             rule-type: degrade # 熔断规则
             data-id: ${spring.application.name}-degrade-rules
 
-# todo: 集群流控，cluster client server
+# sentinel 集群流控
+sentinel-cluster:
+  enabled: true
+  cluster-client-config-data-id: ${spring.application.name}-cluster-client-config
+  cluster-map-data-id: ${spring.application.name}-cluster-map
+
 # todo 网关流控
 # todo dashboard 集群部署
 # todo circuitbreaker.sentinel
@@ -71,7 +78,7 @@ feign:
     enabled: true # 默认false
     default-rule: default # 默认规则名称
     enable-refresh-rules: true
-    # feign 对 rule 的配置，试了没生效
+    # feign.sentinel.rules 的配置无效，需通过动态数据源来控制
 #    rules: # Map<资源名称, List<熔断规则>>
 #      "GET:http://provider-sample/echo/{string}":
 #        - resource: GET:http://provider-sample/echo/{string} # 资源名
