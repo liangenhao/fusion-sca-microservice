@@ -84,10 +84,10 @@ sentinel-cluster:
 # sentinel 对 feign 的支持
 feign:
   circuitbreaker: # Spring Cloud Circuitbreaker 标准实现
-    enabled: true # 默认 false
-  sentinel: # seintinel 的实现
     enabled: false # 默认 false
-    # 下面的部分是 Spring Cloud Circuitbreaker 适配实现用到的配置
+  sentinel: # sentinel 的实现
+    enabled: true # 默认 false
+    # 下面的部分是对 Spring Cloud Circuitbreaker 适配实现用到的配置
     # 注意：
     # 当 feign.sentinel.enabled=true 时，表示使用 Sentinel 作为 feign 的断路器，不是 Spring Cloud Circuitbreaker 的标准实现，下面配置无效，熔断配置使用上面动态数据源的配置。
     # 只有当 feign.sentinel.enabled=false 且 feign.circuitbreaker.enabled=true 且 spring.cloud.circuitbreaker.sentinel.enabled=true 时，表示走 Spring Cloud Circuitbreaker 的实现，下面的配置才有效。
