@@ -1,0 +1,6 @@
+spring:
+  config:
+    import:
+      - optional:nacos:fusion-provider-dev.yml?group=FUSION_CONFIG_GROUP&refreshEnabled=true
+fusion:
+  env-key: dev-provider

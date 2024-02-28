@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>common</module>
-        <module>consumer-sample</module>
-        <module>provider-sample</module>
-        <module>sentinel-sample</module>
+        <module>fusion-consumer</module>
+        <module>fusion-provider</module>
+        <module>fusion-framework</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -16,8 +16,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>enhao</groupId>
-    <artifactId>fusion-sca-sample</artifactId>
+    <groupId>io.fusion</groupId>
+    <artifactId>fusion-sca-microservice</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
 
@@ -81,6 +81,16 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>fusion-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>fusion-spring-cloud-alibaba-sentinel</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: fusion-consumer
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      config:
+        # 命名空间ID，用于区分不同环境，默认为public
+        #namespace: 911c83a2-bae4-4c78-802a-99dbbbdd66a4 # dev
+        server-addr: 127.0.0.1:8848
+        # dataId规则1: ${prefix}-${spring.profiles.active}.${file-extension}
+        # dataId规则2: ${prefix}.${file-extension}，当未指定 profile 时生效
+        # prefix: ${spring.application.name} # 默认值
+        file-extension: yml
+        # 或者直接指定dataId ${spring.cloud.nacos.config.name}
+        name: fusion-consumer
+        group: FUSION_CONFIG_GROUP
+        refresh-enabled: true # 是否开启动态刷新，默认开启
+  profiles:
+    active: dev
+
