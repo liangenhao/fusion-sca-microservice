@@ -2,12 +2,14 @@ package io.fusion.framework.spring.cloud.alibaba.sentinel.autoconfigure;
 
 import com.alibaba.cloud.sentinel.custom.SentinelAutoConfiguration;
 import com.alibaba.csp.sentinel.cluster.ClusterStateManager;
+import com.alibaba.csp.sentinel.cluster.client.NettyTransportClient;
 import com.alibaba.csp.sentinel.cluster.client.config.ClusterClientAssignConfig;
 import com.alibaba.csp.sentinel.cluster.client.config.ClusterClientConfig;
 import com.alibaba.csp.sentinel.cluster.client.config.ClusterClientConfigManager;
 import com.alibaba.csp.sentinel.cluster.flow.rule.ClusterFlowRuleManager;
 import com.alibaba.csp.sentinel.cluster.flow.rule.ClusterParamFlowRuleManager;
 import com.alibaba.csp.sentinel.cluster.registry.ConfigSupplierRegistry;
+import com.alibaba.csp.sentinel.cluster.server.NettyTransportServer;
 import com.alibaba.csp.sentinel.cluster.server.ServerConstants;
 import com.alibaba.csp.sentinel.cluster.server.config.ClusterServerConfigManager;
 import com.alibaba.csp.sentinel.cluster.server.config.ServerFlowConfig;
@@ -24,6 +26,7 @@ import com.alibaba.nacos.api.PropertyKeyConst;
 import io.fusion.framework.spring.cloud.alibaba.sentinel.properties.ClusterAppAssignMap;
 import io.fusion.framework.spring.cloud.alibaba.sentinel.properties.SentinelClusterEmbeddedProperties;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +49,7 @@ import java.util.*;
 @Configuration
 // 配置类不能放在包扫描路径下，且配置 spring.factories, 自动配置 @AutoConfigureAfter 才会生效
 @AutoConfigureAfter(SentinelAutoConfiguration.class)
+@ConditionalOnClass({NacosDataSource.class, NettyTransportClient.class, NettyTransportServer.class})
 @ConditionalOnProperty(name = "fusion.sentinel-cluster.embedded.enabled", havingValue = "true")
 @EnableConfigurationProperties(SentinelClusterEmbeddedProperties.class)
 public class SentinelClusterEmbeddedAutoConfiguration {

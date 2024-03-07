@@ -61,11 +61,13 @@
             <artifactId>fusion-spring-cloud-alibaba-sentinel</artifactId>
         </dependency>
 
+        <!-- 工具相关 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- 子工程相关 -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>common</artifactId>
