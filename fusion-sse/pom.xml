@@ -9,11 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fusion-provider</artifactId>
+    <artifactId>fusion-sse</artifactId>
 
-    <properties>
-
-    </properties>
 
     <dependencies>
         <dependency>
@@ -44,6 +41,11 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+        <!-- openfeign 声明式服务调用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
         <!-- sentinel 流量控制、熔断降级，包括了使用 nacos config 作为动态数据源，集群流控数据源持久化-->
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -54,6 +56,14 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp-sse</artifactId>
         </dependency>
 
         <!-- 子工程相关 -->

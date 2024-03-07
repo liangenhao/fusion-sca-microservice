@@ -8,6 +8,7 @@
         <module>fusion-consumer</module>
         <module>fusion-provider</module>
         <module>fusion-framework</module>
+        <module>fusion-sse</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -39,10 +40,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
     </dependencies>
 

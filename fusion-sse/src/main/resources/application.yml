@@ -1,8 +1,8 @@
 server:
-  port: 9000
+  port: 9010
 spring:
   application:
-    name: fusion-provider
+    name: fusion-sse
   cloud:
     nacos:
       discovery:
@@ -52,18 +52,10 @@ spring:
     # https://sca.aliyun.com/zh-cn/docs/2021.0.5.0/user-guide/nacos/advanced-guide#springcconfigimport-%E5%BC%95%E5%85%A5
     import:
       - optional:nacos:${spring.application.name}.yml?group=FUSION_CONFIG_GROUP&refreshEnabled=true
-  profiles:
-    active: dev # 当前激活的环境
-# Spring Boot Actuator
-# 所有的endpoints均暴露在/actuator下
+
 management:
   endpoints:
     web:
       base-path: /actuator
       exposure:
         include: '*'
-
-providerCustomKey: hello-config
-
-fusion:
-  env-key: default-provider
