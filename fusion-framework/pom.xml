@@ -15,6 +15,7 @@
     <modules>
         <module>fusion-core</module>
         <module>fusion-spring-cloud-alibaba-sentinel</module>
+        <module>fusion-okhttp3-spring-boot-starter</module>
     </modules>
 
 </project>

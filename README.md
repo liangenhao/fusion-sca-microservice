@@ -47,3 +47,5 @@ fusion-sca-microservice
 - Sentinel 动态数据源持久化改造
   - Sentinel dashboard 动态数据源持久化改造，详见：https://github.com/liangenhao/Sentinel/tree/1.8.6-dashboard-datasource/sentinel-dashboard
   - Sentinel 嵌入模式集群流控动态数据源注册实现，详见 fusion-spring-cloud-alibaba-sentinel
+- 基于 Spring Boot 实现 Server-Sent Events，详见 fusion-sse
+- okhttp3 Spring Boot 整合，详见 fusion-okhttp3-spring-boot-starter

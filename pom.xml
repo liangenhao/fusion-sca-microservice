@@ -73,6 +73,11 @@
                 <artifactId>mapstruct</artifactId>
                 <version>${org.mapstruct.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>1.2.83_noneautotype</version>
+            </dependency>
 
             <!-- 子工程相关 -->
             <dependency>
@@ -88,6 +93,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>fusion-spring-cloud-alibaba-sentinel</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>fusion-okhttp3-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
