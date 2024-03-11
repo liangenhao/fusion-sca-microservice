@@ -58,12 +58,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp-sse</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fusion-okhttp3-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- 子工程相关 -->

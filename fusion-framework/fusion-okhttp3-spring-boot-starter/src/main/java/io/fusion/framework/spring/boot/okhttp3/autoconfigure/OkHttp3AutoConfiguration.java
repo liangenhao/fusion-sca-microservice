@@ -1,5 +1,6 @@
 package io.fusion.framework.spring.boot.okhttp3.autoconfigure;
 
+import io.fusion.framework.spring.boot.okhttp3.core.TimeoutInterceptor;
 import io.fusion.framework.spring.boot.okhttp3.properties.OkHttp3Properties;
 import io.fusion.framework.spring.boot.okhttp3.utils.OkHttp3Utils;
 import okhttp3.*;
@@ -116,6 +117,8 @@ public class OkHttp3AutoConfiguration {
         builder.hostnameVerifier(verifier);
 
         builder.connectionPool(connectionPool);
+
+        builder.addInterceptor(new TimeoutInterceptor());
 
         eventListener.ifUnique(builder::eventListener);
 
