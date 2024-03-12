@@ -1,15 +1,23 @@
 package io.fusion.framework.core.tools.idgen.snowflake;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.Serializable;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
 
 /**
  * Twitter的 Snowflake 算法
  *
  * @author enhao
  */
+@Slf4j
 public class Snowflake implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -109,6 +117,10 @@ public class Snowflake implements Serializable {
      * 上次生产 ID 时间戳
      */
     private long lastTimestamp = -1L;
+
+    public Snowflake() {
+        this(genWorkerId(genDataCenterId()), genDataCenterId());
+    }
 
     public Snowflake(long workerId, long dataCenterId) {
         this(workerId, dataCenterId, false);
@@ -261,5 +273,113 @@ public class Snowflake implements Serializable {
      */
     private long genTime() {
         return this.useSystemClock ? SystemClock.now() : System.currentTimeMillis();
+    }
+
+    // getDataCenterId getWorkerId
+
+    private static volatile InetAddress LOCAL_ADDRESS = null;
+    private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
+
+    /**
+     * 基于网卡MAC地址计算余数作为数据中心
+     *
+     * @return 数据中心ID
+     */
+    private static long genDataCenterId() {
+        long id = 0L;
+        try {
+            NetworkInterface network = NetworkInterface.getByInetAddress(getLocalAddress());
+            if (null == network) {
+                id = 1L;
+            } else {
+                byte[] mac = network.getHardwareAddress();
+                if (null != mac) {
+                    id = ((0x000000FF & (long) mac[mac.length - 2]) | (0x0000FF00 & (((long) mac[mac.length - 1]) << 8))) >> 6;
+                    id = id % (MAX_DATA_CENTER_ID + 1);
+                }
+            }
+        } catch (Exception e) {
+            log.warn("[Snowflake] getDataCenterId: " + e.getMessage());
+        }
+
+        return id;
+    }
+
+    /**
+     * 基于 MAC + PID 的 hashcode 获取16个低位作为机器ID
+     *
+     * @param dataCenterId 数据中心ID
+     * @return 机器ID
+     */
+    private static long genWorkerId(long dataCenterId) {
+        StringBuilder mpId = new StringBuilder();
+        mpId.append(dataCenterId);
+        String name = ManagementFactory.getRuntimeMXBean().getName();
+        if (name != null && name.length() > 0) {
+            // GET jvmPid
+            mpId.append(name.split("@")[0]);
+        }
+
+        // MAC + PID 的 hashcode 获取16个低位
+        return (mpId.toString().hashCode() & 0xffff) % (MAX_WORKER_ID + 1);
+    }
+
+    public static InetAddress getLocalAddress() {
+        if (LOCAL_ADDRESS != null) {
+            return LOCAL_ADDRESS;
+        }
+
+        LOCAL_ADDRESS = getLocalAddress0();
+        return LOCAL_ADDRESS;
+    }
+
+    private static InetAddress getLocalAddress0() {
+        InetAddress localAddress = null;
+        try {
+            localAddress = InetAddress.getLocalHost();
+            if (isValidAddress(localAddress)) {
+                return localAddress;
+            }
+        } catch (Throwable e) {
+            log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+        }
+
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            if (interfaces != null) {
+                while (interfaces.hasMoreElements()) {
+                    try {
+                        NetworkInterface network = interfaces.nextElement();
+                        Enumeration<InetAddress> addresses = network.getInetAddresses();
+                        while (addresses.hasMoreElements()) {
+                            try {
+                                InetAddress address = addresses.nextElement();
+                                if (isValidAddress(address)) {
+                                    return address;
+                                }
+                            } catch (Throwable e) {
+                                log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+                            }
+                        }
+                    } catch (Throwable e) {
+                        log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+                    }
+                }
+            }
+        } catch (Throwable e) {
+            log.warn("Failed to retrieving ip address, " + e.getMessage(), e);
+        }
+
+        log.error("Could not get local host ip address, will use 127.0.0.1 instead.");
+        return localAddress;
+    }
+
+    private static boolean isValidAddress(InetAddress address) {
+        if (address == null || address.isLoopbackAddress()) {
+            return false;
+        }
+
+        String name = address.getHostAddress();
+        return (name != null && !"0.0.0.0".equals(name) && !"127.0.0.1".equals(name) && IP_PATTERN.matcher(name).matches());
     }
 }

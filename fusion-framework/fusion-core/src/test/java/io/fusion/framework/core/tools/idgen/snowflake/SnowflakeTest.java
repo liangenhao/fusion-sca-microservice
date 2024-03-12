@@ -22,6 +22,15 @@ public class SnowflakeTest {
     }
 
     @Test
+    public void testDefaultSnowflake() {
+        Snowflake snowflake = new Snowflake();
+        long id = snowflake.nextId();
+        System.out.println(id);
+        System.out.println(snowflake.getDataCenterId(id));
+        System.out.println(snowflake.getWorkerId(id));
+    }
+
+    @Test
     public void testSnowflakeGenerator() {
         Snowflake snowflake0 = SnowflakeGenerator.getSnowflake(0);
         Snowflake snowflake1 = SnowflakeGenerator.getSnowflake(1);
