@@ -39,7 +39,7 @@ fusion-sca-microservice
     ├── fusion-spring-cloud-alibaba-sentinel -- sentinel 扩展模块
 ├── fusion-consumer
 ├── fusion-provider
-├── fusion-sse -- event-stream 实现
+├── fusion-sse -- 基于 Spring Boot 实现 Server-Sent Events 接口
 ```
 
 ## 实现功能
@@ -49,3 +49,9 @@ fusion-sca-microservice
   - Sentinel 嵌入模式集群流控动态数据源注册实现，详见 fusion-spring-cloud-alibaba-sentinel
 - 基于 Spring Boot 实现 Server-Sent Events，详见 fusion-sse
 - okhttp3 Spring Boot 整合，详见 fusion-okhttp3-spring-boot-starter
+  - [todo] okhttp3 可观测性实现
+  - [todo] okhttp3 日志相关
+- 基于 Redis 的分布式限流，详见 fusion-rate-limiter
+  - [todo] 分布式限流可观测性实现
+  - [todo] 限流组件整合 Spring Boot
+- 单机版限流实现，详见 fusion-rate-limiter
