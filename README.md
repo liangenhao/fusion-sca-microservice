@@ -55,3 +55,12 @@ fusion-sca-microservice
   - [todo] 分布式限流可观测性实现
   - [todo] 限流组件整合 Spring Boot
 - 单机版限流实现，详见 fusion-rate-limiter
+- 集成 seata 分布式事务
+  - AT 模式 + RestTemplate，实现 Spring Cloud 服务下的分布式事务
+  - AT 模式 + Feign，实现 Spring Cloud 服务下的分布式事务
+  - [todo] AT 模式 + 多数据源，实现单体项目在多数据源下的分布式事务
+  - [todo] AT 模式 + HttpClient，实现多个项目的分布式事务
+  - [todo] AT 模式 + Dubbo，实现 Dubbo 服务下的分布式事务
+  - [todo] TCC 模式
+  - [todo] Saga 模式
+  - [todo] XA 模式
