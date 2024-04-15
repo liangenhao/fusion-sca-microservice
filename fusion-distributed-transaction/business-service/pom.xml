@@ -60,7 +60,7 @@
         <!-- 子工程相关 -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>fusion-common</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

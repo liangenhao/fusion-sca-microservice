@@ -60,6 +60,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fusion-spring-cloud-alibaba-sentinel</artifactId>
         </dependency>
+        <!-- 提供 web 统一返回和异常处理，openfeign 统一返回和异常处理 -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fusion-spring-cloud-web</artifactId>
+        </dependency>
 
         <!-- 工具相关 -->
         <dependency>
@@ -70,7 +75,11 @@
         <!-- 子工程相关 -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>fusion-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fusion-common</artifactId>
         </dependency>
     </dependencies>
 

@@ -17,6 +17,7 @@
         <module>fusion-spring-cloud-alibaba-sentinel</module>
         <module>fusion-okhttp3-spring-boot-starter</module>
         <module>fusion-rate-limiter</module>
+        <module>fusion-spring-cloud-web</module>
     </modules>
 
 </project>

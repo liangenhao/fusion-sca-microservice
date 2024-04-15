@@ -4,12 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
-        <module>common</module>
+        <module>fusion-common</module>
         <module>fusion-consumer</module>
         <module>fusion-provider</module>
         <module>fusion-framework</module>
         <module>fusion-sse</module>
         <module>fusion-distributed-transaction</module>
+        <module>fusion-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -107,7 +108,12 @@
             <!-- 子工程相关 -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>common</artifactId>
+                <artifactId>fusion-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>fusion-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -123,6 +129,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>fusion-okhttp3-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>fusion-spring-cloud-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

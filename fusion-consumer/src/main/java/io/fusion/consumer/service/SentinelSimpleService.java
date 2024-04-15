@@ -3,16 +3,16 @@ package io.fusion.consumer.service;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
-import io.fusion.consumer.client.EchoFeignClient;
+import io.fusion.consumer.client.ProviderServiceEchoRpcClient;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SentinelSimpleService {
 
-    private final EchoFeignClient echoFeignClient;
+    private final ProviderServiceEchoRpcClient echoRpcClient;
 
-    public SentinelSimpleService(EchoFeignClient echoFeignClient) {
-        this.echoFeignClient = echoFeignClient;
+    public SentinelSimpleService(ProviderServiceEchoRpcClient echoRpcClient) {
+        this.echoRpcClient = echoRpcClient;
     }
 
     /**
@@ -93,7 +93,7 @@ public class SentinelSimpleService {
      * @return {@link String}
      */
     public String echoFeign(String str) throws DegradeException {
-        return echoFeignClient.echo(str);
+        return echoRpcClient.echo(str);
     }
 
     // sentinel fallback

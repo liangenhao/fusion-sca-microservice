@@ -1,6 +1,6 @@
 package io.fusion.consumer.config;
 
-import io.fusion.consumer.client.EchoFeignClientFallback;
+import io.fusion.consumer.client.ProviderServiceEchoRpcClientFallback;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class FeignConfiguration {
 
     @Bean
-    public EchoFeignClientFallback echoFeignClientFallback() {
-        return new EchoFeignClientFallback();
+    public ProviderServiceEchoRpcClientFallback echoFeignClientFallback() {
+        return new ProviderServiceEchoRpcClientFallback();
     }
 }

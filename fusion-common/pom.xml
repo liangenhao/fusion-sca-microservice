@@ -9,10 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common</artifactId>
+    <artifactId>fusion-common</artifactId>
 
-    <properties>
-
-    </properties>
+    <dependencies>
+    </dependencies>
 
 </project>
