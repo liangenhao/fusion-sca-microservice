@@ -44,7 +44,17 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!-- sentinel 流量控制、熔断降级，包括了使用 nacos config 作为动态数据源，集群流控数据源持久化-->
+        <!-- sentinel 流量控制、熔断降级 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <!-- sentinel 使用 nacos config 作为动态数据源 -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
+        <!-- sentinel 扩展: 集群流控数据源持久化 -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fusion-spring-cloud-alibaba-sentinel</artifactId>
