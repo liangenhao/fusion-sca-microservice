@@ -5,6 +5,8 @@ import io.fusion.framework.spring.cloud.web.openfeign.codec.FeignCodecConfigurat
 import io.fusion.consumer.config.FeignConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient(name = "fusion-provider", configuration = {FeignConfiguration.class, FeignCodecConfiguration.class})
+@FeignClient(name = "fusion-provider",
+        // fallback = ProviderServiceEchoRpcClientFallback.class,
+        fallbackFactory = ProviderServiceEchoRpcClientFallbackFactory.class)
 public interface ProviderServiceEchoRpcClient extends ProviderServiceEchoApi {
 }

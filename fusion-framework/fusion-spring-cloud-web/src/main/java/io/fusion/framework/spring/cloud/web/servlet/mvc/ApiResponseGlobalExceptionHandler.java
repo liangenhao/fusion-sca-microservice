@@ -15,6 +15,7 @@ import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author enhao
@@ -55,8 +56,15 @@ public class ApiResponseGlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     public ApiResponse<Void> onThrowable(Throwable throwable, HandlerMethod handlerMethod,
                                          HttpServletRequest request, HttpServletResponse response) {
+        Throwable rootCause = ExceptionUtils.getRootCause(throwable);
+        if (rootCause instanceof BizException) {
+            return onBizException((BizException) rootCause, handlerMethod, request, response);
+        } else if (rootCause instanceof FeignRpcBizException) {
+            return onFeignRpcBizException((FeignRpcBizException) rootCause, handlerMethod, request, response);
+        }
         log.error("[onThrowable]", throwable);
-        ApiResponse<Void> apiResponse = ApiResponse.error(ExceptionUtils.getRootCauseMessage(throwable));
+        rootCause = rootCause == null ? throwable : rootCause;
+        ApiResponse<Void> apiResponse = ApiResponse.error(ExceptionUtils.getMessage(rootCause));
         return handleRpcException(apiResponse, handlerMethod, request, response);
     }
 

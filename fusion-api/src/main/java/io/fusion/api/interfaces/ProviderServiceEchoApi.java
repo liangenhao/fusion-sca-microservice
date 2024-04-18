@@ -1,5 +1,6 @@
 package io.fusion.api.interfaces;
 
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import io.fusion.api.vo.UserVo;
 import io.fusion.framework.core.api.ApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import java.util.List;
 public interface ProviderServiceEchoApi {
 
     @GetMapping(value = "/echo/{string}")
-    String echo(@PathVariable String string);
+    String echo(@PathVariable String string) throws BlockException;
 
     @GetMapping(value = "/echoApiResponse/{string}")
     ApiResponse<String> echoApiResponse(@PathVariable String string);

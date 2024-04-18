@@ -1,5 +1,6 @@
 package io.fusion.consumer.controller;
 
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
 import io.fusion.consumer.service.SentinelSimpleService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +34,7 @@ public class SentinelSimpleController {
     }
 
     @GetMapping("echoFeign/{str}")
-    public String echoFeign(@PathVariable String str) throws DegradeException {
+    public String echoFeign(@PathVariable String str) throws BlockException {
         return sentinelSimpleService.echoFeign(str);
     }
 }

@@ -1,5 +1,6 @@
 package io.fusion.consumer.controller;
 
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import io.fusion.api.vo.UserVo;
 import io.fusion.consumer.client.ProviderServiceEchoRpcClient;
 import io.fusion.framework.core.api.ApiResponse;
@@ -23,7 +24,7 @@ public class RestFeignController {
     }
 
     @GetMapping("/rest/feign/echo")
-    public String echo() {
+    public String echo() throws BlockException {
         return echoRpcClient.echo("Hello, World");
     }
 

@@ -81,8 +81,6 @@ public class SentinelSimpleService {
     }
 
     /**
-     * Sentinel Feign 只支持 熔断规则
-     * <p>
      * 当 feign 调用异常后，会执行 fallback 降级方法。
      * <p>
      * 若触发了熔断规则，在熔断时长内则不会进行远程调用。若 @FeignClient 还配置了 fallback，直接执行 fallback 方法。
@@ -92,7 +90,7 @@ public class SentinelSimpleService {
      * @param str 参数
      * @return {@link String}
      */
-    public String echoFeign(String str) throws DegradeException {
+    public String echoFeign(String str) throws BlockException {
         return echoRpcClient.echo(str);
     }
 
