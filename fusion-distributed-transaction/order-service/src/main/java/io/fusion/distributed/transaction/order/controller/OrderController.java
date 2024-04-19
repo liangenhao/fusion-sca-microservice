@@ -4,6 +4,8 @@ import io.fusion.distributed.transaction.api.OrderServiceApi;
 import io.fusion.distributed.transaction.common.CommonConst;
 import io.fusion.distributed.transaction.order.rpc.AccountServiceRpcClient;
 import io.fusion.distributed.transaction.order.service.OrderService;
+import io.fusion.framework.core.enums.ApiStatusCode;
+import io.fusion.framework.core.exception.BizException;
 import io.seata.core.context.RootContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -37,15 +39,15 @@ public class OrderController implements OrderServiceApi {
         int orderMoney = calculate(commodityCode, orderCount);
 
         // 账户金额扣减
-        boolean deductSuccess = deductAccountMoney(userId, orderMoney, failPos);
-        if (!deductSuccess) {
-            return CommonConst.FAIL;
+        String account = accountServiceRpcClient.account(userId, orderMoney, failPos);
+        if (!CommonConst.SUCCESS.equals(account)) {
+            throw new BizException(ApiStatusCode.SYSTEM_ERROR, "账号api调用失败");
         }
 
         // 订单入库
         boolean success = orderService.saveOrder(userId, commodityCode, orderCount, orderMoney);
         if (!success) {
-            return CommonConst.FAIL;
+            throw new BizException(ApiStatusCode.SYSTEM_ERROR, "订单入库失败");
         }
 
         if ("order".equals(failPos)) {
@@ -53,11 +55,6 @@ public class OrderController implements OrderServiceApi {
         }
 
         return CommonConst.SUCCESS;
-    }
-
-    private boolean deductAccountMoney(String userId, int orderMoney, String failPos) {
-        String account = accountServiceRpcClient.account(userId, orderMoney, failPos);
-        return CommonConst.SUCCESS.equals(account);
     }
 
     private int calculate(String commodityCode, int orderCount) {

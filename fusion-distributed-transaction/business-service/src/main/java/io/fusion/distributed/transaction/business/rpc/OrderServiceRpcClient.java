@@ -6,6 +6,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 /**
  * @author enhao
  */
-@FeignClient("order-service")
+@FeignClient(value = "order-service"/*, fallbackFactory = OrderServiceRpcClientFallbackFactory.class*/)
 public interface OrderServiceRpcClient extends OrderServiceApi {
 }

@@ -33,6 +33,43 @@ spring:
         ttl: 35s # 过期时间
         caffeine: # caffeine.spec有值则覆盖 capacity 和 ttl 配置，格式: key1=value1,key2=value2 详见 com.github.benmanes.caffeine.cache.CaffeineSpec.configure
           spec: "initialCapacity=200,expireAfterWrite=10s"
+    circuitbreaker:
+      sentinel:
+        enabled: true # 默认 true，开启 Sentinel 对 Spring Cloud circuitbreaker 标准的实现
+    sentinel:
+      enabled: true # 默认 true
+      eager: true # 默认 false，是否在 Spring 容器启动时就初始化。默认在第一次调用时初始化
+      http-method-specify: true # 默认 false，是否添加 http method 前缀
+      web-context-unify: true # 默认为 true，流控模式如果是链路，需要配置成 false
+      transport:
+        port: 8719 # 启动一个 Http Server，该 Server 会与 Sentinel 控制台做交互。如果端口被占用，会自动+1，直到找到未被占用的端口
+        dashboard: localhost:8080
+        heartbeat-interval-ms: 5000 # 与控制台心跳间隔
+      filter:
+        enabled: true # 默认 true，是否开启对 Spring webmvc 的拦截器
+        url-patterns: # 拦截器拦截路径
+          - '/**'
+      log:
+        dir: logs/csp/${spring.application.name}-${server.port}
+      datasource: # 动态数据源，需对 sentinel-dashboard 做改造，详见 https://github.com/liangenhao/Sentinel/tree/master/sentinel-dashboard
+        ds-flow:
+          nacos:
+            username: ${spring.cloud.nacos.username}
+            password: ${spring.cloud.nacos.password}
+            server-addr: 127.0.0.1:8848
+            group-id: SENTINEL_RULES_CONFIG_GROUP # 特别注意: 这里是 group-id，不是 group，和 spring.cloud.nacos.config 的配置 key 是不同的！
+            data-type: json # 支持: json、xml、custom，当为 custom 时，指定 converter-class 配置项，写类全路径名
+            rule-type: flow # 流控规则
+            data-id: ${spring.application.name}-flow-rules
+        ds-degrade:
+          nacos:
+            username: ${spring.cloud.nacos.username}
+            password: ${spring.cloud.nacos.password}
+            server-addr: 127.0.0.1:8848
+            group-id: SENTINEL_RULES_CONFIG_GROUP
+            data-type: json
+            rule-type: degrade # 熔断规则
+            data-id: ${spring.application.name}-degrade-rules
   config:
     # https://sca.aliyun.com/zh-cn/docs/2021.0.5.0/user-guide/nacos/advanced-guide#springcconfigimport-%E5%BC%95%E5%85%A5
     import:
@@ -41,6 +78,20 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/seata_storage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: enhao
     password: enhao
+
+fusion:
+  # sentinel 集群流控
+  sentinel-cluster:
+    embedded: # 嵌入集群模式
+      enabled: true
+      cluster-client-config-data-id: ${spring.application.name}-cluster-client-config
+      cluster-map-data-id: ${spring.application.name}-cluster-map
+
+feign:
+  circuitbreaker: # Spring Cloud Circuitbreaker 标准实现
+    enabled: false # 默认 false
+  sentinel: # sentinel 的实现
+    enabled: true # 默认 false
 
 # https://seata.apache.org/zh-cn/docs/v1.6/user/configurations
 seata:

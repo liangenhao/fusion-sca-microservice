@@ -16,6 +16,8 @@ import java.util.List;
  *
  * @author enhao
  * @see SentinelInvocationHandler
+ * @see <a href="https://github.com/alibaba/Sentinel/issues/1931">Feign fallback target exceptions | Feign SentinelInvocationHandler fallback 逻辑问题</a>
+ * @see <a href="https://github.com/alibaba/spring-cloud-alibaba/issues/1447">Is there an Exception like HystrixBadRequestException In Sentinel?</a>
  */
 @Slf4j
 public class ProviderServiceEchoRpcClientFallbackFactory implements FallbackFactory<ProviderServiceEchoRpcClient> {

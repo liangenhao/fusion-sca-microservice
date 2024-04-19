@@ -57,6 +57,26 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+        <!-- sentinel 流量控制、熔断降级 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <!-- sentinel 使用 nacos config 作为动态数据源 -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
+        <!-- sentinel 扩展: 集群流控数据源持久化 -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fusion-spring-cloud-alibaba-sentinel</artifactId>
+        </dependency>
+        <!-- 提供 web 统一返回和异常处理，openfeign 统一返回和异常处理 -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fusion-spring-cloud-web</artifactId>
+        </dependency>
         <!-- seata 分布式事务 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

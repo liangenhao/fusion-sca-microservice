@@ -6,6 +6,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 /**
  * @author enhao
  */
-@FeignClient("account-service")
+@FeignClient(value = "account-service"/*, fallbackFactory = AccountServiceRpcClientFallbackFactory.class*/)
 public interface AccountServiceRpcClient extends AccountServiceApi {
 }

@@ -6,6 +6,4 @@ package io.fusion.distributed.transaction.common;
 public interface CommonConst {
 
     String SUCCESS = "SUCCESS";
-
-    String FAIL = "FAIL";
 }
