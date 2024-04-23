@@ -1,18 +1,18 @@
 package io.fusion.distributed.transaction.account.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import io.fusion.distributed.transaction.account.entity.Account;
+import io.fusion.distributed.transaction.entity.Account;
 import io.fusion.distributed.transaction.account.service.AccountService;
 import io.fusion.distributed.transaction.api.AccountServiceApi;
 import io.fusion.distributed.transaction.common.CommonConst;
 import io.fusion.framework.core.enums.ApiStatusCode;
 import io.fusion.framework.core.exception.BizException;
 import io.seata.core.context.RootContext;
+import io.seata.spring.annotation.GlobalLock;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Random;
 
 /**
  * @author enhao
@@ -28,6 +28,7 @@ public class AccountController implements AccountServiceApi {
     }
 
     @Override
+    // @GlobalTransactional(timeoutMills = 300000)
     public String account(String userId, int money, @RequestHeader String failPos) {
         log.info("Account Service ... xid: " + RootContext.getXID());
 
@@ -48,5 +49,15 @@ public class AccountController implements AccountServiceApi {
         }
 
         return CommonConst.SUCCESS;
+    }
+
+    @Override
+    // @GlobalTransactional(timeoutMills = 300000)
+    @GlobalLock
+    public Account queryUserAccount(String userId, Boolean forUpdate) {
+        return accountService.lambdaQuery()
+                .eq(Account::getUserId, userId)
+                .last(forUpdate ? "for update" : "")
+                .one();
     }
 }

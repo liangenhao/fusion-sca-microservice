@@ -1,5 +1,6 @@
 package io.fusion.distributed.transaction.order.rpc;
 
+import io.fusion.distributed.transaction.entity.Account;
 import io.seata.core.context.RootContext;
 import io.seata.tm.api.GlobalTransactionContext;
 import lombok.SneakyThrows;
@@ -22,6 +23,11 @@ public class AccountServiceRpcClientFallbackFactory implements FallbackFactory<A
                 log.error("[account fallbackFactory]", cause);
                 GlobalTransactionContext.reload(RootContext.getXID()).rollback();
                 return "account fallback factory";
+            }
+
+            @Override
+            public Account queryUserAccount(String userId, Boolean forUpdate) {
+                return null;
             }
         };
     }

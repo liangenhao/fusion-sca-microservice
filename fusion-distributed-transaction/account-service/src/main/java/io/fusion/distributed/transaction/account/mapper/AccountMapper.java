@@ -1,7 +1,7 @@
 package io.fusion.distributed.transaction.account.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import io.fusion.distributed.transaction.account.entity.Account;
+import io.fusion.distributed.transaction.entity.Account;
 
 /**
  * @author enhao

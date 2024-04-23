@@ -19,6 +19,12 @@ public class ApiResponse<T> {
     public static final ApiResponse<Void> VOID = ApiResponse.<Void>builder()
             .code(ApiStatusCode.OK.getCode()).message(ApiStatusCode.OK.getMessage()).build();
 
+    public static final ApiResponse<Boolean> TRUE = ApiResponse.<Boolean>builder()
+            .code(ApiStatusCode.OK.getCode()).message(ApiStatusCode.OK.getMessage()).body(true).build();
+
+    public static final ApiResponse<Boolean> FALSE = ApiResponse.<Boolean>builder()
+            .code(ApiStatusCode.OK.getCode()).message(ApiStatusCode.OK.getMessage()).body(false).build();
+
     private String code;
 
     private String message;

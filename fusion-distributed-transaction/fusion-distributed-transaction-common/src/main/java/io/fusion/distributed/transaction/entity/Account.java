@@ -1,4 +1,4 @@
-package io.fusion.distributed.transaction.account.entity;
+package io.fusion.distributed.transaction.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
