@@ -23,6 +23,11 @@ public class OrderServiceRpcClientFallbackFactory implements FallbackFactory<Ord
                 GlobalTransactionContext.reload(RootContext.getXID()).rollback();
                 return "order fallback factory";
             }
+
+            @Override
+            public String preOrder(String userId, String commodityCode, int orderCount, String failPos) {
+                return null;
+            }
         };
     }
 }

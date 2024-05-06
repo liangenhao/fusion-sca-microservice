@@ -4,9 +4,11 @@ import io.fusion.distributed.transaction.api.OrderServiceApi;
 import io.fusion.distributed.transaction.common.CommonConst;
 import io.fusion.distributed.transaction.order.rpc.AccountServiceRpcClient;
 import io.fusion.distributed.transaction.order.service.OrderService;
+import io.fusion.distributed.transaction.order.tcc.action.PreOrderTccAction;
 import io.fusion.framework.core.enums.ApiStatusCode;
 import io.fusion.framework.core.exception.BizException;
 import io.seata.core.context.RootContext;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +26,12 @@ public class OrderController implements OrderServiceApi {
 
     private final AccountServiceRpcClient accountServiceRpcClient;
 
-    private final Random random = new Random();
+    private final PreOrderTccAction preOrderTccAction;
 
-    public OrderController(OrderService orderService, AccountServiceRpcClient accountServiceRpcClient) {
+    public OrderController(OrderService orderService, AccountServiceRpcClient accountServiceRpcClient, PreOrderTccAction preOrderTccAction) {
         this.orderService = orderService;
         this.accountServiceRpcClient = accountServiceRpcClient;
+        this.preOrderTccAction = preOrderTccAction;
     }
 
     @Override
@@ -54,6 +57,15 @@ public class OrderController implements OrderServiceApi {
             throw new RuntimeException("Order Service Exception");
         }
 
+        return CommonConst.SUCCESS;
+    }
+
+    @Override
+    // @GlobalTransactional
+    public String preOrder(String userId, String commodityCode, int orderCount, @RequestHeader String failPos) {
+        int orderMoney = 2 * orderCount;
+        accountServiceRpcClient.deductAccountMoney(userId, orderMoney, failPos);
+        preOrderTccAction.prepareOrder(null, userId, commodityCode, orderCount, orderMoney, failPos);
         return CommonConst.SUCCESS;
     }
 

@@ -1,6 +1,7 @@
 package io.fusion.distributed.transaction.account.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import io.fusion.distributed.transaction.account.tcc.action.AccountDeductMoneyTccAction;
 import io.fusion.distributed.transaction.entity.Account;
 import io.fusion.distributed.transaction.account.service.AccountService;
 import io.fusion.distributed.transaction.api.AccountServiceApi;
@@ -23,8 +24,11 @@ public class AccountController implements AccountServiceApi {
 
     private final AccountService accountService;
 
-    public AccountController(AccountService accountService) {
+    private final AccountDeductMoneyTccAction accountDeductMoneyTccAction;
+
+    public AccountController(AccountService accountService, AccountDeductMoneyTccAction accountDeductMoneyTccAction) {
         this.accountService = accountService;
+        this.accountDeductMoneyTccAction = accountDeductMoneyTccAction;
     }
 
     @Override
@@ -59,5 +63,18 @@ public class AccountController implements AccountServiceApi {
                 .eq(Account::getUserId, userId)
                 .last(forUpdate ? "for update" : "")
                 .one();
+    }
+
+    @Override
+    // @GlobalTransactional(timeoutMills = 300000)
+    public String deductAccountMoney(String userId, int money, @RequestHeader String failPos) {
+        log.info("Account Service ... xid: " + RootContext.getXID());
+        accountDeductMoneyTccAction.prepareDeductMoney(null, userId, money);
+
+        if ("account".equals(failPos)) {
+            throw new BizException(ApiStatusCode.SYSTEM_ERROR, "account Service Exception");
+        }
+
+        return CommonConst.SUCCESS;
     }
 }

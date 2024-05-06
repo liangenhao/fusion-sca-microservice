@@ -1,20 +1,18 @@
-package io.fusion.distributed.transaction.order.entity;
+package io.fusion.distributed.transaction.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * @author enhao
  */
 @Data
-public class Order {
+@Builder
+public class Storage {
 
     private Integer id;
-
-    private String userId;
 
     private String commodityCode;
 
     private Integer count;
-
-    private Integer money;
 }

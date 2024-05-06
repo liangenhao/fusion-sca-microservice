@@ -17,4 +17,7 @@ public interface AccountServiceApi {
 
     @PostMapping(value = "/distributed-transaction/queryUserAccount", produces = "application/json")
     Account queryUserAccount(@RequestParam String userId, @RequestParam Boolean forUpdate);
+
+    @PostMapping(value = "/distributed-transaction/tcc/deductAccountMoney", produces = "application/json")
+    String deductAccountMoney(@RequestParam String userId, @RequestParam int money, @RequestHeader String failPos);
 }

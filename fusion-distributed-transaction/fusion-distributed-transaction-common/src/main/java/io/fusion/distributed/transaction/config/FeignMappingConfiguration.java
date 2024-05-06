@@ -30,6 +30,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  */
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnClass({Feign.class, FeignClient.class})
+@Deprecated
 public class FeignMappingConfiguration {
 
     @Bean

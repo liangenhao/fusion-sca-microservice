@@ -29,6 +29,11 @@ public class AccountServiceRpcClientFallbackFactory implements FallbackFactory<A
             public Account queryUserAccount(String userId, Boolean forUpdate) {
                 return null;
             }
+
+            @Override
+            public String deductAccountMoney(String userId, int money, String failPos) {
+                return null;
+            }
         };
     }
 }
