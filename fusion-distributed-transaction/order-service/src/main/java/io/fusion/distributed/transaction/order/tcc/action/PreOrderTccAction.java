@@ -11,7 +11,7 @@ import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 @LocalTCC
 public interface PreOrderTccAction {
 
-    @TwoPhaseBusinessAction(name = "preOrder", commitMethod = "commitOrder", rollbackMethod = "rollbackOrder")
+    @TwoPhaseBusinessAction(name = "preOrder", commitMethod = "commitOrder", rollbackMethod = "rollbackOrder", useTCCFence = true)
     boolean prepareOrder(BusinessActionContext actionContext,
                          @BusinessActionContextParameter("userId") String userId,
                          @BusinessActionContextParameter("commodityCode") String commodityCode,

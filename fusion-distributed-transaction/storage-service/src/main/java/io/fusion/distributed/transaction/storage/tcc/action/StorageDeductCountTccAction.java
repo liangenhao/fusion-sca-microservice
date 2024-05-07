@@ -11,7 +11,7 @@ import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 @LocalTCC
 public interface StorageDeductCountTccAction {
 
-    @TwoPhaseBusinessAction(name = "prepareDeductSStorage", commitMethod = "commitDeductStorage", rollbackMethod = "rollbackDeductStorage")
+    @TwoPhaseBusinessAction(name = "prepareDeductSStorage", commitMethod = "commitDeductStorage", rollbackMethod = "rollbackDeductStorage", useTCCFence = true)
     boolean prepareDeductSStorage(BusinessActionContext actionContext,
                                   @BusinessActionContextParameter(value = "commodityCode") String commodityCode,
                                   @BusinessActionContextParameter(value = "count") Integer count);

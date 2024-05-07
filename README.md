@@ -58,8 +58,8 @@ fusion-sca-microservice
 - 集成 seata 分布式事务
   - AT 模式 + RestTemplate，实现 Spring Cloud 服务下的分布式事务
   - AT 模式 + Feign，实现 Spring Cloud 服务下的分布式事务
+  - TCC 模式
+  - XA 模式
   - [todo] AT 模式 + 多数据源，实现单体项目在多数据源下的分布式事务
   - [todo] AT 模式 + Dubbo，实现 Dubbo 服务下的分布式事务
-  - [todo] TCC 模式
   - [todo] Saga 模式
-  - XA 模式

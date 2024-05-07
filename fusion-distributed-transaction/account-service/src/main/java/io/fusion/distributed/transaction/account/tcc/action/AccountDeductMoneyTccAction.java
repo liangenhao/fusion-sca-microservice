@@ -19,7 +19,7 @@ public interface AccountDeductMoneyTccAction {
      * @param money         扣款金额
      * @return {@link Boolean}
      */
-    @TwoPhaseBusinessAction(name = "prepareAccountDeductMoney", commitMethod = "commitDeductMoney", rollbackMethod = "rollbackDeductMoney")
+    @TwoPhaseBusinessAction(name = "prepareAccountDeductMoney", commitMethod = "commitDeductMoney", rollbackMethod = "rollbackDeductMoney", useTCCFence = true)
     boolean prepareDeductMoney(BusinessActionContext actionContext,
                                @BusinessActionContextParameter(value = "userId") String userId,
                                @BusinessActionContextParameter(value = "money") Integer money);
