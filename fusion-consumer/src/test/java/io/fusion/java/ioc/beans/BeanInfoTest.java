@@ -1,4 +1,4 @@
-package io.fusion.ioc.java.beans;
+package io.fusion.java.ioc.beans;
 
 import org.junit.jupiter.api.Test;
 

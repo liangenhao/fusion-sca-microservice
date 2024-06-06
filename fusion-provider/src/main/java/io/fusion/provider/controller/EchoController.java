@@ -6,6 +6,7 @@ import io.fusion.api.vo.UserVo;
 import io.fusion.framework.core.api.ApiResponse;
 import io.fusion.framework.core.enums.ApiStatusCode;
 import io.fusion.framework.core.exception.BizException;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 public class EchoController implements ProviderServiceEchoApi {
 
+    @SneakyThrows
     public String echo(@PathVariable String string) throws BlockException {
         log.error("echo execute {}", string);
         if ("error".equals(string)) {
