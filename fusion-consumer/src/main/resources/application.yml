@@ -137,4 +137,17 @@ logging:
   level:
     io.fusion.consumer.client: debug
 
-
+jodconverter:
+  remote:
+    enabled: true
+#    url: http://10.21.10.12:17499
+    url: http://127.0.0.1:2001
+    working-dir: /Users/enhao/Documents/projects/personal/fusion-sca-microservice/logs/libreoffice/remoteWorkingDir
+  local:
+    enabled: true
+    office-home: /Applications/LibreOffice.app/Contents/
+    working-dir: /Users/enhao/Documents/projects/personal/fusion-sca-microservice/logs/libreoffice/workingDir
+    template-profile-dir: /Users/enhao/Documents/projects/personal/fusion-sca-microservice/logs/libreoffice/templateProfileDir
+    start-fail-fast: true
+    port-numbers: 2001
+    max-tasks-per-process: 200

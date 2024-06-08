@@ -18,6 +18,7 @@
         <module>fusion-okhttp3-spring-boot-starter</module>
         <module>fusion-rate-limiter</module>
         <module>fusion-spring-cloud-web</module>
+        <module>fusion-format-converter</module>
     </modules>
 
 </project>
