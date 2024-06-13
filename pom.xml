@@ -12,6 +12,7 @@
         <module>fusion-distributed-transaction</module>
         <module>fusion-api</module>
         <module>fusion-gateway</module>
+        <module>fusion-search</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -111,6 +112,7 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
+            <!-- Java OpenDocument Converter -->
             <dependency>
                 <groupId>org.jodconverter</groupId>
                 <artifactId>jodconverter-core</artifactId>
