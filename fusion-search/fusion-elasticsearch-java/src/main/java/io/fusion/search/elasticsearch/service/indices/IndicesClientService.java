@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.mapping.TypeMapping;
 import co.elastic.clients.elasticsearch.indices.*;
 import co.elastic.clients.elasticsearch.indices.get_alias.IndexAliases;
+import co.elastic.clients.elasticsearch.indices.put_index_template.IndexTemplateMapping;
 import co.elastic.clients.elasticsearch.indices.update_aliases.Action;
 import co.elastic.clients.transport.endpoints.BooleanResponse;
 import lombok.SneakyThrows;
@@ -71,18 +72,18 @@ public class IndicesClientService {
             }
             return builder;
         });
-        printRequest(createIndexRequest.toString());
+        logRequest(createIndexRequest.toString());
         CreateIndexResponse createIndexResponse = client.indices().create(createIndexRequest);
-        printResponse(createIndexResponse.toString());
+        logResponse(createIndexResponse.toString());
         return createIndexResponse.acknowledged();
     }
 
     @SneakyThrows
     public IndexState getIndex(String index) {
         GetIndexRequest request = GetIndexRequest.of(b -> b.index(index));
-        printRequest(request.toString());
+        logRequest(request.toString());
         GetIndexResponse response = client.indices().get(request);
-        printResponse(response.toString());
+        logResponse(response.toString());
         return response.get(index);
     }
 
@@ -90,9 +91,9 @@ public class IndicesClientService {
     public IndexState getIndexSettings(String index) {
         GetIndicesSettingsRequest request = GetIndicesSettingsRequest.of(b ->
                 b.index(Collections.singletonList(index)));
-        printRequest(request.toString());
+        logRequest(request.toString());
         GetIndicesSettingsResponse settings = client.indices().getSettings(request);
-        printResponse(settings.toString());
+        logResponse(settings.toString());
         return settings.get(index);
     }
 
@@ -105,9 +106,9 @@ public class IndicesClientService {
             }
             return b;
         });
-        printRequest(request.toString());
+        logRequest(request.toString());
         PutIndicesSettingsResponse response = client.indices().putSettings(request);
-        printResponse(response.toString());
+        logResponse(response.toString());
         return response.acknowledged();
     }
 
@@ -118,9 +119,9 @@ public class IndicesClientService {
                 .name(alias)
                 .isWriteIndex(isWriteIndex)
         );
-        printRequest(request.toString());
+        logRequest(request.toString());
         PutAliasResponse response = client.indices().putAlias(request);
-        printResponse(response.toString());
+        logResponse(response.toString());
         return response.acknowledged();
 
     }
@@ -128,9 +129,9 @@ public class IndicesClientService {
     @SneakyThrows
     public boolean updateIndexAliases(List<Action> actions) {
         UpdateAliasesRequest request = UpdateAliasesRequest.of(b -> b.actions(actions));
-        printRequest(request.toString());
+        logRequest(request.toString());
         UpdateAliasesResponse response = client.indices().updateAliases(request);
-        printResponse(response.toString());
+        logResponse(response.toString());
         return response.acknowledged();
     }
 
@@ -143,9 +144,9 @@ public class IndicesClientService {
             }
             return b;
         });
-        printRequest(request.toString());
+        logRequest(request.toString());
         BooleanResponse response = client.indices().existsAlias(request);
-        printResponse(response.toString());
+        logResponse(response.toString());
         return response.value();
     }
 
@@ -158,20 +159,56 @@ public class IndicesClientService {
             }
             return b;
         });
-        printRequest(request.toString());
+        logRequest(request.toString());
         GetAliasResponse response = client.indices().getAlias(request);
-        printResponse(response.toString());
+        logResponse(response.toString());
         return response.get(index);
     }
 
+    @SneakyThrows
+    public boolean deleteIndexTemplate(List<String> templateName) {
+        DeleteIndexTemplateRequest request = DeleteIndexTemplateRequest.of(b -> b.name(templateName));
+        logRequest(request.toString());
+        DeleteIndexTemplateResponse response = client.indices().deleteIndexTemplate(request);
+        logResponse(response.toString());
+        return response.acknowledged();
+    }
+
+    @SneakyThrows
+    public boolean createIndexTemplate(String templateName, List<String> indexPatterns, Integer priority,
+                                       IndexTemplateMapping template, List<String> composedOf) {
+        PutIndexTemplateRequest request = PutIndexTemplateRequest.of(b -> {
+            b.name(templateName);
+            if (!CollectionUtils.isEmpty(indexPatterns)) {
+                b.indexPatterns(indexPatterns);
+            }
+            if (null != priority) {
+                b.priority(priority);
+            }
+            if (null != template) {
+                b.template(template);
+            }
+            if (!CollectionUtils.isEmpty(composedOf)) {
+                b.composedOf(composedOf);
+            }
+            return b;
+        });
+        logRequest(request.toString());
+        PutIndexTemplateResponse response = client.indices().putIndexTemplate(request);
+        logResponse(response.toString());
+
+        return response.acknowledged();
+    }
+
+
     // ========== private 方法 ==========
 
-    private void printRequest(String request) {
+    private void logRequest(String request) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         log.error("[{}] -> req: {}", methodName, request);
     }
 
-    private void printResponse(String response) {
+    private void logResponse(String response) {
         String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
         log.error("[{}] <- res: {}", methodName, response);
     }

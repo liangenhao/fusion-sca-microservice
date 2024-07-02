@@ -5,6 +5,7 @@ import co.elastic.clients.elasticsearch.indices.Alias;
 import co.elastic.clients.elasticsearch.indices.IndexSettings;
 import co.elastic.clients.elasticsearch.indices.IndexState;
 import co.elastic.clients.elasticsearch.indices.get_alias.IndexAliases;
+import co.elastic.clients.elasticsearch.indices.put_index_template.IndexTemplateMapping;
 import co.elastic.clients.elasticsearch.indices.update_aliases.Action;
 import io.fusion.search.elasticsearch.service.indices.IndicesClientService;
 import io.fusion.search.elasticsearch.service.indices.IndicesRestService;
@@ -156,7 +157,31 @@ public class IndicesServiceTest extends BaseTest {
                 Arrays.asList("my_api_index_alias", "my_api_index_write"));
         // {"my_api_index_0612":{"aliases":{"my_api_index_alias":{},"my_api_index_write":{"is_write_index":true}}}}
         Assertions.assertEquals(2, indexAliases.aliases().size());
+    }
 
+    @Test
+    public void testDeleteIndexTemplate() {
+        // DELETE /_index_template/tpl_no_replicas
+        String templateName = "tpl_no_replicas";
+        boolean ack = indicesClientService.deleteIndexTemplate(Collections.singletonList(templateName));
+        Assertions.assertTrue(ack);
+    }
+
+    @Test
+    public void testCreateIndexTemplateWithNoReplicas() {
+        // PUT /_index_template/tpl_no_replicas {"index_patterns":["*"],"priority":1,"template":{"settings":{"index":{"number_of_replicas":"0"}}}}
+        String templateName = "tpl_no_replicas";
+        List<String> indexPatterns = Collections.singletonList("*");
+        int priority = 1;
+        IndexTemplateMapping mapping = IndexTemplateMapping.of(b -> b
+                .settings(b1 -> b1
+                        .index(b2 -> b2
+                                .numberOfReplicas("0")
+                        )
+                )
+        );
+        boolean ack = indicesClientService.createIndexTemplate(templateName, indexPatterns, priority, mapping, null);
+        Assertions.assertTrue(ack);
     }
 
 }
