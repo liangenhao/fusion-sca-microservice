@@ -73,6 +73,38 @@ spring:
 
 fusion:
   env-key: default1
+  datasource:
+    dynamic:
+      enabled: true
+      primary: master
+      datasource:
+        master:
+          url: jdbc:mysql://127.0.0.1:3306/seata_order?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+          username: enhao
+          password: enhao
+          type: com.zaxxer.hikari.HikariDataSource
+          configuration:
+            maximumPoolSize: 120
+            minimumIdle: 53
+            idleTimeout: 232
+            connectionTimeout: 1123
+            connectionTestQuery: select 2
+            poolName: master
+        business:
+          url: jdbc:mysql://127.0.0.1:3306/seata_account?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+          username: enhao
+          password: enhao
+          type: com.alibaba.druid.pool.DruidDataSource
+          configuration:
+            initialSize: 2
+            maxActive: 3
+            minIdle: 2
+            maxIdle: 4
+            testOnBorrow: true
+            testOnReturn: true
+            validationQuery: select 3
+            name: business
+
   # sentinel 集群流控
   sentinel-cluster:
     embedded: # 嵌入集群模式
@@ -140,7 +172,6 @@ logging:
 jodconverter:
   remote:
     enabled: true
-#    url: http://10.21.10.12:17499
     url: http://127.0.0.1:2001
     working-dir: /Users/enhao/Documents/projects/personal/fusion-sca-microservice/logs/libreoffice/remoteWorkingDir
   local:

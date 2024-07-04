@@ -19,6 +19,7 @@
         <module>fusion-rate-limiter</module>
         <module>fusion-spring-cloud-web</module>
         <module>fusion-format-converter</module>
+        <module>fusion-datasource-spring-boot-starter</module>
     </modules>
 
 </project>
