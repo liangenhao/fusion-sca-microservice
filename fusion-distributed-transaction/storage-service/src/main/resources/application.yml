@@ -74,10 +74,11 @@ spring:
     # https://sca.aliyun.com/zh-cn/docs/2021.0.5.0/user-guide/nacos/advanced-guide#springcconfigimport-%E5%BC%95%E5%85%A5
     import:
       - optional:nacos:${spring.application.name}.yml?group=FUSION_CONFIG_GROUP&refreshEnabled=true
+      - optional:nacos:application.yml?group=FUSION_CONFIG_GROUP&refreshEnabled=true
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/seata_storage?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: enhao
-    password: enhao
+    password: '[cipher]g5JZvm0SzOqldnahypZBaA=='
 
 fusion:
   # sentinel 集群流控

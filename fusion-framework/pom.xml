@@ -20,6 +20,7 @@
         <module>fusion-spring-cloud-web</module>
         <module>fusion-format-converter</module>
         <module>fusion-datasource-spring-boot-starter</module>
+        <module>fusion-cipher-spring-boot-starter</module>
     </modules>
 
 </project>

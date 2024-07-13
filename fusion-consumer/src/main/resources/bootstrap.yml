@@ -17,6 +17,10 @@ spring:
         name: fusion-consumer
         group: FUSION_CONFIG_GROUP
         refresh-enabled: true # 是否开启动态刷新，默认开启
+        shared-configs:
+          - data-id: application.yml
+            group: FUSION_CONFIG_GROUP
+            refresh: true
   profiles:
     active: dev
 

@@ -9,7 +9,7 @@ spring:
       # 同时nacos server 还需要指定nacos.core.auth.server.identity.key和nacos.core.auth.server.identity.value，
       # 表示当前请求头中包含配置内容，跳过鉴权，用于服务器内部调用不走鉴权认证
       username: nacos
-      password: nacos
+#      password: nacos
       discovery:
         # 命名空间ID，用于区分不同环境，默认为public
         #namespace: 911c83a2-bae4-4c78-802a-99dbbbdd66a4 # dev
@@ -81,7 +81,7 @@ fusion:
         master:
           url: jdbc:mysql://127.0.0.1:3306/seata_order?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
           username: enhao
-          password: enhao
+          password: '[cipher]g5JZvm0SzOqldnahypZBaA=='
           type: com.zaxxer.hikari.HikariDataSource
           configuration:
             maximumPoolSize: 120
@@ -93,7 +93,7 @@ fusion:
         business:
           url: jdbc:mysql://127.0.0.1:3306/seata_account?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
           username: enhao
-          password: enhao
+          password: '[cipher]g5JZvm0SzOqldnahypZBaA=='
           type: com.alibaba.druid.pool.DruidDataSource
           configuration:
             initialSize: 2

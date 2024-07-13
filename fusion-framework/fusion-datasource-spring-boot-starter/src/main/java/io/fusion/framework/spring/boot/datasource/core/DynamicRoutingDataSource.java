@@ -61,7 +61,7 @@ public class DynamicRoutingDataSource extends AbstractRoutingDataSource implemen
     @Override
     protected Object determineCurrentLookupKey() {
         String currentDataSource = DynamicDataSourceContextHolder.peek();
-        log.info("currentDataSource:{}", currentDataSource);
+        log.info("currentDataSource:{}, defaultDataSource:{}", currentDataSource, properties.getPrimary());
         return currentDataSource;
     }
 
