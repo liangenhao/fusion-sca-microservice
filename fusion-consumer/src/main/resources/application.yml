@@ -165,6 +165,10 @@ management:
       base-path: /actuator
       exposure:
         include: '*'
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
 logging:
   level:
     io.fusion.consumer.client: debug

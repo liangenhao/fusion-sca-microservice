@@ -13,6 +13,7 @@
         <module>fusion-api</module>
         <module>fusion-gateway</module>
         <module>fusion-search</module>
+        <module>netty-rpc</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
