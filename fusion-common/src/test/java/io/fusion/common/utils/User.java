@@ -1,5 +1,6 @@
 package io.fusion.common.utils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.fusion.api.annotation.FieldCompare;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     @FieldCompare(name = "姓名")
