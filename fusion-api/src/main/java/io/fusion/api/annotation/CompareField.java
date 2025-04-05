@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface FieldCompare {
+public @interface CompareField {
 
     /**
      * 字段名称，必填
@@ -50,4 +50,14 @@ public @interface FieldCompare {
      * 时间格式化
      */
     String dateFormat() default "";
+
+    /**
+     * 是否为关键字段，默认否
+     */
+    boolean keyField() default false;
+
+    /**
+     * 是否在差异日志中忽略该字段，默认否
+     */
+    boolean ignore() default false;
 }

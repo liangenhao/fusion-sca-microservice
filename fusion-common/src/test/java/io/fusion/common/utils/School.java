@@ -1,6 +1,6 @@
 package io.fusion.common.utils;
 
-import io.fusion.api.annotation.FieldCompare;
+import io.fusion.api.annotation.CompareField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,12 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 public class School {
 
-    @FieldCompare(name = "学校名称")
+    @CompareField(name = "学校名称")
     private String name;
 
-    @FieldCompare(name = "年级")
+    @CompareField(name = "年级")
     private String level;
 
-    @FieldCompare(name = "孩子", nested = true)
+    @CompareField(name = "孩子", nested = true)
     private List<User> children;
 }

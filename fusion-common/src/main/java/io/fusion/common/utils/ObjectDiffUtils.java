@@ -1,6 +1,6 @@
 package io.fusion.common.utils;
 
-import io.fusion.api.annotation.FieldCompare;
+import io.fusion.api.annotation.CompareField;
 import io.fusion.api.annotation.KeyField;
 import io.fusion.api.enums.BaseEnum;
 import io.fusion.api.model.FieldChange;
@@ -63,23 +63,23 @@ public class ObjectDiffUtils {
         for (Field field : fields) {
             field.setAccessible(true);
 
-            FieldCompare fieldCompare = field.getAnnotation(FieldCompare.class);
-            if (fieldCompare == null) {
+            CompareField compareField = field.getAnnotation(CompareField.class);
+            if (compareField == null) {
                 continue;
             }
             Object oldValue = field.get(oldObj);
             Object newValue = field.get(newObj);
 
-            String currentPath = path.isEmpty() ? fieldCompare.name() : path + "." + fieldCompare.name();
-            if (fieldCompare.nested()) {
+            String currentPath = path.isEmpty() ? compareField.name() : path + "." + compareField.name();
+            if (compareField.nested()) {
                 // 嵌套对象递归比较
-                int newAllowedDepth = (currentDepth == 0) ? fieldCompare.maxDepth() : allowedDepth;
+                int newAllowedDepth = (currentDepth == 0) ? compareField.maxDepth() : allowedDepth;
                 if (currentDepth >= newAllowedDepth) {
                     continue;
                 }
                 List<FieldChange> nestedChanges;
                 if (oldValue instanceof Collection && newValue instanceof Collection) {
-                    nestedChanges = compareCollections((Collection<?>) oldValue, (Collection<?>) newValue, fieldCompare,
+                    nestedChanges = compareCollections(field, (Collection<?>) oldValue, (Collection<?>) newValue, compareField,
                             currentPath, currentDepth + 1, newAllowedDepth);
                 } else {
                     nestedChanges = compare(oldValue, newValue, currentPath, currentDepth + 1, newAllowedDepth);
@@ -91,7 +91,8 @@ public class ObjectDiffUtils {
 
             if (!Objects.equals(oldValue, newValue)) {
                 // 记录字段差异
-                changes.add(new FieldChange(currentPath, oldValue, newValue, fieldCompare));
+                FieldChange fieldChange = resolveFieldChange(field, currentPath, oldValue, newValue, compareField);
+                changes.add(fieldChange);
             }
         }
         return changes;
@@ -111,11 +112,18 @@ public class ObjectDiffUtils {
             return StringUtils.EMPTY;
         }
 
+        return formatChanges(fieldChanges);
+    }
+
+    public static String formatChanges(List<FieldChange> fieldChanges) {
         StringBuilder msg = new StringBuilder();
         for (FieldChange fieldChange : fieldChanges) {
-            String oldVal = formatValue(fieldChange.getOldValue(), fieldChange.getFieldCompare());
-            String newVal = formatValue(fieldChange.getNewValue(), fieldChange.getFieldCompare());
-            msg.append(String.format("%s: %s -> %s；", fieldChange.getFieldName(), oldVal, newVal));
+            CompareField compareField = fieldChange.getCompareField();
+            if (compareField.ignore()) {
+                continue;
+            }
+            msg.append(String.format("%s: %s -> %s；", fieldChange.getFieldAlias(), fieldChange.getOldDisplayValue(),
+                    fieldChange.getNewDisplayValue()));
         }
         return msg.substring(0, msg.length() - 1);
     }
@@ -157,8 +165,8 @@ public class ObjectDiffUtils {
 
     // ==================== private method ====================
 
-    private static List<FieldChange> compareCollections(Collection<?> oldCol, Collection<?> newCol,
-                                                        FieldCompare fieldCompare, String basePath, int depth, int allowedDepth) {
+    private static List<FieldChange> compareCollections(Field field, Collection<?> oldCol, Collection<?> newCol,
+                                                        CompareField compareField, String basePath, int depth, int allowedDepth) {
         List<FieldChange> changes = new ArrayList<>(Math.max(oldCol.size(), newCol.size()));
         List<?> oldList = new ArrayList<>(oldCol);
         List<?> newList = new ArrayList<>(newCol);
@@ -171,43 +179,62 @@ public class ObjectDiffUtils {
                 changes.addAll(compare(oldList.get(i), newList.get(i), elementPath, depth, allowedDepth));
             } else {
                 // 记录被删除的元素
-                changes.add(new FieldChange(elementPath, oldList.get(i), null, fieldCompare));
+                FieldChange fieldChange = resolveFieldChange(field, elementPath, oldList.get(i), null, compareField);
+                changes.add(fieldChange);
             }
         }
 
         // 记录新增的元素
         for (int i = oldList.size(); i < newList.size(); i++) {
             String elementPath = basePath + "[" + i + "]";
-            changes.add(new FieldChange(elementPath, null, newList.get(i), fieldCompare));
+            FieldChange fieldChange = resolveFieldChange(field, elementPath, null, newList.get(i), compareField);
+            changes.add(fieldChange);
         }
 
         return changes;
     }
 
-    private static String formatValue(Object value, FieldCompare fieldCompare) {
+    private static FieldChange resolveFieldChange(Field field, String fieldAlias, Object oldValue, Object newValue,
+                                                  CompareField compareField) {
+        String name = field.getDeclaringClass().getSimpleName() + "." + field.getName();
+        String oldDisplayValue = formatValue(oldValue, compareField);
+        String newDisplayValue = formatValue(newValue, compareField);
+
+        return FieldChange.builder()
+                .field(name)
+                .fieldAlias(fieldAlias)
+                .oldValue(oldValue)
+                .oldDisplayValue(oldDisplayValue)
+                .newValue(newValue)
+                .newDisplayValue(newDisplayValue)
+                .compareField(compareField)
+                .build();
+    }
+
+    private static String formatValue(Object value, CompareField compareField) {
         if (value == null) {
             return "空";
         }
 
         if (value instanceof Enum) {
-            return formatEnumObj((Enum<?>) value, fieldCompare);
+            return formatEnumObj((Enum<?>) value, compareField);
         } else if (value instanceof Temporal) {
-            return formatTemporal((Temporal) value, fieldCompare);
+            return formatTemporal((Temporal) value, compareField);
         } else if (value instanceof Date) {
-            return formatDate((Date) value, fieldCompare);
+            return formatDate((Date) value, compareField);
         }
 
-        if (fieldCompare.enumClass() != Void.class) {
-            return formatEnumValue(value, fieldCompare);
+        if (compareField.enumClass() != Void.class) {
+            return formatEnumValue(value, compareField);
         }
 
         return value.toString();
     }
 
-    private static String formatEnumObj(Enum<?> value, FieldCompare fieldCompare) {
-        if (StringUtils.isNotBlank(fieldCompare.enumDisplayField())) {
+    private static String formatEnumObj(Enum<?> value, CompareField compareField) {
+        if (StringUtils.isNotBlank(compareField.enumDisplayField())) {
             try {
-                Field enumField = value.getClass().getDeclaredField(fieldCompare.enumDisplayField());
+                Field enumField = value.getClass().getDeclaredField(compareField.enumDisplayField());
                 enumField.setAccessible(true);
                 return enumField.get(value).toString();
             } catch (Exception e) {
@@ -223,19 +250,19 @@ public class ObjectDiffUtils {
         return value.name();
     }
 
-    private static String formatEnumValue(Object value, FieldCompare fieldCompare) {
-        Class<?> enumClass = fieldCompare.enumClass();
+    private static String formatEnumValue(Object value, CompareField compareField) {
+        Class<?> enumClass = compareField.enumClass();
         if (enumClass == Void.class) {
             return value.toString();
         }
 
         Enum<?>[] enums = (Enum<?>[]) enumClass.getEnumConstants();
         try {
-            Field field = enumClass.getDeclaredField(fieldCompare.enumCodeField());
+            Field field = enumClass.getDeclaredField(compareField.enumCodeField());
             field.setAccessible(true);
             for (Enum<?> e : enums) {
                 if (Objects.equals(field.get(e), value)) {
-                    return formatEnumObj(e, fieldCompare);
+                    return formatEnumObj(e, compareField);
                 }
             }
         } catch (Exception ex) {
@@ -245,28 +272,28 @@ public class ObjectDiffUtils {
         return value.toString();
     }
 
-    private static String formatTemporal(Temporal value, FieldCompare fieldCompare) {
-        if (fieldCompare.dateFormat().isEmpty()) {
+    private static String formatTemporal(Temporal value, CompareField compareField) {
+        if (compareField.dateFormat().isEmpty()) {
             return value.toString();
         }
 
         if (value instanceof LocalDate) {
-            return ((LocalDate) value).format(DateTimeFormatter.ofPattern(fieldCompare.dateFormat()));
+            return ((LocalDate) value).format(DateTimeFormatter.ofPattern(compareField.dateFormat()));
         } else if (value instanceof LocalDateTime) {
-            return ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(fieldCompare.dateFormat()));
+            return ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(compareField.dateFormat()));
         } else if (value instanceof LocalTime) {
-            return ((LocalTime) value).format(DateTimeFormatter.ofPattern(fieldCompare.dateFormat()));
+            return ((LocalTime) value).format(DateTimeFormatter.ofPattern(compareField.dateFormat()));
         }
 
         return value.toString();
     }
 
-    private static String formatDate(Date value, FieldCompare fieldCompare) {
-        if (fieldCompare.dateFormat().isEmpty()) {
+    private static String formatDate(Date value, CompareField compareField) {
+        if (compareField.dateFormat().isEmpty()) {
             return value.toString();
         }
 
-        return new SimpleDateFormat(fieldCompare.dateFormat()).format(value);
+        return new SimpleDateFormat(compareField.dateFormat()).format(value);
     }
 
 }

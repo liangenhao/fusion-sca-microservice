@@ -1,7 +1,7 @@
 package io.fusion.common.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.fusion.api.annotation.FieldCompare;
+import io.fusion.api.annotation.CompareField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,22 +19,22 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
-    @FieldCompare(name = "姓名")
+    @CompareField(name = "姓名")
     private String name;
 
-    @FieldCompare(name = "年龄")
+    @CompareField(name = "年龄")
     private Integer age;
 
-    @FieldCompare(name = "性别", enumClass = GenderEnum.class, enumCodeField = "code", enumDisplayField = "desc")
+    @CompareField(name = "性别", enumClass = GenderEnum.class, enumCodeField = "code", enumDisplayField = "desc")
     private Integer gender;
 
-    @FieldCompare(name = "性别", enumDisplayField = "desc")
+    @CompareField(name = "性别", enumDisplayField = "desc")
     private GenderEnum genderEnum;
 
-    @FieldCompare(name = "生日")
+    @CompareField(name = "生日")
     private LocalDateTime birthday;
 
-    @FieldCompare(name = "学校", nested = true, maxDepth = 3)
+    @CompareField(name = "学校", nested = true, maxDepth = 3)
     private School school;
 
 

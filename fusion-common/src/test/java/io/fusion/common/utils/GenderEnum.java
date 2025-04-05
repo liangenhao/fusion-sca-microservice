@@ -5,7 +5,7 @@ import io.fusion.api.enums.BaseEnum;
 /**
  * @author enhao
  */
-public enum GenderEnum /*implements BaseEnum<Integer>*/ {
+public enum GenderEnum implements BaseEnum<Integer> {
     MALE(1, "男"),
     FEMALE(2, "女");
 

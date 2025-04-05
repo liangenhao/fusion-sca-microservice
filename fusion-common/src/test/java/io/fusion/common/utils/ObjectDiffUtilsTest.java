@@ -1,5 +1,6 @@
 package io.fusion.common.utils;
 
+import io.fusion.api.model.FieldChange;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -42,7 +43,14 @@ public class ObjectDiffUtilsTest {
                 .school(newSchool)
                 .build();
 
-        String s = ObjectDiffUtils.formatChanges(oldUser, newUser);
+        List<FieldChange> fieldChanges = ObjectDiffUtils.compare(oldUser, newUser);
+        System.out.println(fieldChanges);
+        String s = ObjectDiffUtils.formatChanges(fieldChanges);
         System.out.println(s);
+    }
+
+    @Test
+    public void testKeyFieldCompare() {
+
     }
 }
