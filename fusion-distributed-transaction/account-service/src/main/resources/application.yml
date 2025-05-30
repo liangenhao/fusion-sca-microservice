@@ -132,3 +132,6 @@ logging:
   level:
     root: info
     io.fusion.distributed.transaction.account.mapper: debug
+    org.springframework.transaction: debug
+    org.springframework.jdbc: DEBUG
+    org.springframework.jdbc.datasource: DEBUG

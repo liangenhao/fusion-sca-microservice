@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.fusion.distributed.transaction.account.mapper.AccountMapper">
+
+    <select id="findByCondition" resultType="io.fusion.distributed.transaction.entity.Account">
+        SELECT * FROM account_tbl WHERE user_id = #{userId}
+    </select>
+</mapper>

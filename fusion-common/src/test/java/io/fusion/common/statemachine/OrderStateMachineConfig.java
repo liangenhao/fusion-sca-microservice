@@ -10,8 +10,9 @@ import java.util.Set;
 /**
  * 订单状态机配置
  */
-@Component
 public class OrderStateMachineConfig implements StateMachineConfig<OrderState, OrderEvent> {
+
+    public static final OrderStateMachineConfig INSTANCE = new OrderStateMachineConfig();
     
     private final Set<StateTransition<OrderState, OrderEvent>> transitions = new HashSet<>();
     
