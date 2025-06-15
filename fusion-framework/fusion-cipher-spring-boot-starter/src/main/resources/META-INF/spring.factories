@@ -1,8 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.fusion.framework.spring.boot.cipher.autoconfigure.CipherAutoConfiguration
-
-org.springframework.context.ApplicationContextInitializer=\
-io.fusion.framework.spring.boot.cipher.core.ConfigDecryptionApplicationContextInitializer
-
-org.springframework.boot.env.EnvironmentPostProcessor=\
-io.fusion.framework.spring.boot.cipher.core.ConfigDecryptionEnvironmentPostProcessor

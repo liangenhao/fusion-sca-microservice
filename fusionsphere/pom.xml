@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>io.fusion</groupId>
+        <artifactId>fusion</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <groupId>io.fusion.sphere</groupId>
+    <artifactId>fusionsphere</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>fusionsphere-dependencies</module>
+        <module>fusionsphere-java</module>
+        <module>fusionsphere-spring-boot</module>
+        <module>fusionsphere-spring-cloud</module>
+    </modules>
+
+    <properties>
+        <jsr305.version>3.0.2</jsr305.version>
+        <fastjson2.version>2.0.57</fastjson2.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${jsr305.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

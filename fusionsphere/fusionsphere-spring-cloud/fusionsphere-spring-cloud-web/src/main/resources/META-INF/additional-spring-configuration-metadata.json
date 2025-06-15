@@ -1,0 +1,26 @@
+{
+  "groups": [
+    {
+      "name": "fusionsphere.webmvc.codec",
+      "description": "WebMVC unified return value and exception handler configuration."
+    },
+    {
+      "name": "fusionsphere.feign.codec",
+      "description": "spring-cloud-openfeign Encoder and Decoder configuration."
+    }
+  ],
+  "properties": [
+    {
+      "name": "fusionsphere.webmvc.codec.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enables unified return value and exception handler for WebMVC.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "fusionsphere.feign.codec.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enables Encoder and Decoder for Feign.",
+      "defaultValue": "true"
+    }
+  ]
+}

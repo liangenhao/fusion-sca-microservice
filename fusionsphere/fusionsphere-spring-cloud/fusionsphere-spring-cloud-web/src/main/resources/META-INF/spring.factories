@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  io.fusionsphere.spring.cloud.web.autoconfigure.WebMvcCodecAutoConfiguration,\
+  io.fusionsphere.spring.cloud.web.autoconfigure.OpenFeignCodecAutoConfiguration

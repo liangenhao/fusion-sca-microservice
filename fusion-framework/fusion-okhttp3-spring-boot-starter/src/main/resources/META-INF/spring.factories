@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.fusion.framework.spring.boot.okhttp3.autoconfigure.OkHttp3AutoConfiguration

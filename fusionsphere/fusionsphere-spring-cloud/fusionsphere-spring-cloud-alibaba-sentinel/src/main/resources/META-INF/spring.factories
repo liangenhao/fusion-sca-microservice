@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.fusionsphere.spring.cloud.alibaba.sentinel.autoconfigure.SentinelClusterEmbeddedAutoConfiguration
